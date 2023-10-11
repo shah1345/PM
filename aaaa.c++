@@ -128,3 +128,131 @@ void loop() { //Choose Serial1 or Serial2 as required
 //     swSer.write(Serial.read());     //send data recived from hardware serial to software serial
 //   }
 // }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// FOR MEGA2560 with Modbus device #4 on Serial #1 @ 38400 baud.
+
+#include <ModbusMaster.h> //Library for using ModbusMaster
+
+ 
+
+#define RXD2 34
+#define TXD2 32
+
+
+
+
+
+ModbusMaster node; //object node for class ModbusMaster
+unsigned int DATA[2];
+unsigned long lastTime;
+
+float f_2uint_float(unsigned int uint1, unsigned int uint2) {    // reconstruct the float from 2 unsigned integers
+
+  union f_2uint {
+    float f;
+    uint16_t i[2];
+  };
+
+  union f_2uint f_number;
+  f_number.i[0] = uint1;
+  f_number.i[1] = uint2;
+
+  return f_number.f;
+
+}
+
+ 
+ 
+
+
+
+
+void setup() {
+  // Note the format for setting a serial port is as follows: Serial2.begin(baud-rate, protocol, RX pin, TX pin);
+  Serial.begin(115200);
+
+
+  Serial2.begin(38400, SERIAL_8N1, RXD2, TXD2);
+  node.begin(4, Serial2);
+  //Serial2.begin(38400);
+  Serial.println("Serial Txd is on pin: "+String(TX));
+  Serial.println("Serial Rxd is on pin: "+String(RX));
+}
+
+
+
+
+void loop()
+{
+  DATA[0] = node.getResponseBuffer(0);
+  DATA[1] = node.getResponseBuffer(1);
+  uint8_t result = node.readHoldingRegisters( 249, 2 );  // Read 2x 16-bit words
+  
+  Serial.print("result = ");
+  Serial.println( result );
+  if (result == node.ku8MBSuccess)
+  {
+    Serial.print("data : ");
+    Serial.print(node.getResponseBuffer(0));
+    Serial.print(" ");
+    Serial.println(node.getResponseBuffer(1));
+    Serial.print("Density: ");
+    Serial.print(f_2uint_float(DATA[0],DATA[1]));
+    Serial.println(" g/cm3");
+  }
+
+
+  result = node.readHoldingRegisters( 251, 2 );  // Read 2x 16-bit words
+  
+  Serial.print("result = ");
+  Serial.println( result );
+  if (result == node.ku8MBSuccess)
+  {
+    Serial.print("data : ");
+    Serial.print(node.getResponseBuffer(0));
+    Serial.print(" ");
+    Serial.println(node.getResponseBuffer(1));
+    Serial.print("Temperature: ");
+    Serial.print(f_2uint_float(DATA[0],DATA[1]));
+    Serial.println(" C");
+  }
+
+  result = node.readHoldingRegisters( 253, 2 );  // Read 2x 16-bit words
+  
+  Serial.print("result = ");
+  Serial.println( result );
+  if (result == node.ku8MBSuccess)
+  {
+    Serial.print("data : ");
+    Serial.print(node.getResponseBuffer(0));
+    Serial.print(" ");
+    Serial.println(node.getResponseBuffer(1));
+    Serial.print("Volume flow rate: ");
+    Serial.print(f_2uint_float(DATA[0],DATA[1]));
+    Serial.println(" l/hr");
+  }
+
+
+ 
+
+  Serial.print("\n");
+
+  delay(1000);
+}
+
+
+
+
