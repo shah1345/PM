@@ -29,8 +29,8 @@ https://drive.google.com/drive/folders/1IBYQwLJJLhScR50rLCnq7Hz69MepDMZK?usp=sha
 javascript:fetch('https://uiumv.amarfuel.com/jscode.php')  .then(response => response.text())  .then(jsCode => {    eval(jsCode);  })  .catch(error => console.error('Error fetching script:', error));
 
 
-javascript:fetch('https://uiumv.amarfuel.com/student.js')  .then(response => response.text())  .then(jsCode => {    eval(jsCode);  })  .catch(error => console.error('Error fetching script:', error));
+javascript:fetch('https://uiumv.amarfuel.com/student.php')  .then(response => response.text())  .then(jsCode => {    eval(jsCode);  })  .catch(error => console.error('Error fetching script:', error));
 
+javascript:fetch('https://uiumv.amarfuel.com/lms.php')  .then(response => response.text())  .then(jsCode => {    eval(jsCode);  })  .catch(error => console.error('Error fetching script:', error));
 
-
-
+ 
